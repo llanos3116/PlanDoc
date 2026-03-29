@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>PlanDoc</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Fraunces:wght@700;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="shell">
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="s-logo">
+        <div class="s-logo-row">
+          <div class="s-ico">📋</div>
+          <div>
+            <div class="s-name">Plan<em>Doc</em></div>
+            <div class="s-sub">Perú · CNEB 2026</div>
+          </div>
+        </div>
+      </div>
+      <div class="s-sec">Principal</div>
+      <div class="s-link on" onclick="go('dashboard')"><span class="ic">🏠</span>Panel Principal</div>
+      <div class="s-link" onclick="go('anual')"><span class="ic">📅</span>Plan Anual<span class="s-bdg"
+          id="bdg-pa">2</span></div>
+      <div class="s-link" onclick="go('unidades')"><span class="ic">📚</span>Unidades Didácticas<span class="s-bdg"
+          id="bdg-ud">4</span></div>
+      <div class="s-link" onclick="go('sesiones')"><span class="ic">🎯</span>Sesiones<span class="s-bdg"
+          id="bdg-ses">6</span></div>
+      <div class="s-sec">Currículo CNEB</div>
+      <div class="s-link" onclick="go('competencias')"><span class="ic">⭐</span>Competencias</div>
+      <div class="s-link" onclick="go('enfoques')"><span class="ic">🌐</span>Enfoques Transversales</div>
+      <div class="s-link" onclick="go('evaluacion')"><span class="ic">📊</span>Instrumentos</div>
+      <div class="s-sec">Herramientas</div>
+      <div class="s-link" onclick="go('generador')"><span class="ic">✨</span>Generador con IA</div>
+      <div class="s-link" onclick="go('config')"><span class="ic">⚙️</span>Configuración IA</div>
+      <div class="s-link" onclick="go('calendario')"><span class="ic">🗓️</span>Calendario 2026</div>
+      <div class="s-foot">
+        <div class="s-user" onclick="go('config')">
+          <div class="s-av" id="s-av">MP</div>
+          <div>
+            <div class="s-uname" id="s-uname">Mg. María Pérez</div>
+            <div class="s-urole" id="s-urole">Docente · I.E. San Martín</div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- MAIN -->
+    <div class="main">
+      <div class="topbar">
+        <div class="tb-l">
+          <div class="tb-ttl" id="tb-ttl">Panel Principal</div>
+          <div class="tb-sub" id="tb-sub">Año Lectivo 2026 · I.E. San Martín de Porres</div>
+        </div>
+        <div class="tb-r">
+          <div class="ai-bdg ai-bdg-gem" id="ai-bdg" onclick="go('config')">
+            <span id="ai-dot">🔵</span><span id="ai-txt">Gemini activo</span>
+          </div>
+          <button class="btn btn-red" id="tb-btn" onclick="openNew()">+ Nueva Planificación</button>
+        </div>
+      </div>
+
+      <!-- ═══ DASHBOARD ═══ -->
+      <div class="page on" id="page-dashboard">
+        <div class="stats" id="stats-g"></div>
+        <div class="ai-banner">
+          <div style="font-size:34px;position:relative;z-index:1;">🤖</div>
+          <div style="position:relative;z-index:1;">
+            <h3>Generador Inteligente · Gemini / Claude Premium · CNEB 2026</h3>
+            <p>Rellena automáticamente todos los campos del formulario. Exporta en PDF, Word o imprime con un clic.</p>
+          </div>
+          <div style="margin-left:auto;display:flex;gap:7px;position:relative;z-index:1;">
+            <button class="btn-ai-gem btn-sm" style="font-size:12px;" onclick="go('generador')">✨ Generar</button>
+            <button class="btn btn-ghost btn-sm" style="color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.2);"
+              onclick="go('config')">⚙️ Config IA</button>
+          </div>
+        </div>
+        <div class="sec">
+          <div>
+            <div class="sec-t">Planificaciones recientes</div>
+            <div class="sec-s">Últimas sesiones creadas</div>
+          </div><button class="btn btn-ghost btn-sm" onclick="go('sesiones')">Ver todas →</button>
+        </div>
+        <div id="dash-r"></div>
+      </div>
+
+      <!-- ═══ PLAN ANUAL ═══ -->
+      <div class="page" id="page-anual">
+        <div class="sec">
+          <div>
+            <div class="sec-t">Plan Anual por Grado · 2026</div>
+            <div class="sec-s">Selecciona el grado para gestionar la programación anual</div>
+          </div><button class="btn btn-red" onclick="abrirPA()">+ Nuevo Plan Anual</button>
+        </div>
+        <div class="gts" id="g-anual"></div>
+        <div id="anual-c"></div>
+      </div>
+
+      <!-- ═══ UNIDADES ═══ -->
+      <div class="page" id="page-unidades">
+        <div class="sec">
+          <div>
+            <div class="sec-t">Unidades Didácticas · 2026</div>
+            <div class="sec-s">Organización por grado y bimestre · CNEB</div>
+          </div><button class="btn btn-red" onclick="abrirUD()">+ Nueva Unidad</button>
+        </div>
+        <div class="gts" id="g-ud"></div>
+        <div id="ud-c"></div>
+      </div>
+
+      <!-- ═══ SESIONES ═══ -->
+      <div class="page" id="page-sesiones">
+        <div class="sec">
+          <div>
+            <div class="sec-t">Sesiones de Aprendizaje · 2026</div>
+            <div class="sec-s">Por grado, bimestre y área · CNEB</div>
+          </div><button class="btn btn-red" onclick="abrirSES()">+ Nueva Sesión</button>
+        </div>
+        <div class="gts" id="g-ses"></div>
+        <div id="ses-c"></div>
+      </div>
+
+      <!-- ═══ COMPETENCIAS ═══ -->
+      <div class="page" id="page-competencias">
+        <div class="sec">
+          <div>
+            <div class="sec-t">Competencias, Capacidades y Desempeños · CNEB</div>
+            <div class="sec-s">Currículo Nacional EBR · MINEDU Perú · Nivel Secundaria</div>
+          </div>
+        </div>
+        <div class="tbs" id="comp-tbs"></div>
+        <div id="comp-c"></div>
+      </div>
+
+      <!-- ═══ ENFOQUES ═══ -->
+      <div class="page" id="page-enfoques">
+        <div class="sec">
+          <div>
+            <div class="sec-t">Enfoques Transversales del CNEB</div>
+            <div class="sec-s">Orientan el trabajo pedagógico en todas las áreas · Perú</div>
+          </div>
+        </div>
+        <div class="cg3" id="enf-g"></div>
+      </div>
+
+      <!-- ═══ EVALUACION ═══ -->
+      <div class="page" id="page-evaluacion">
+        <div class="sec">
+          <div>
+            <div class="sec-t">Instrumentos de Evaluación · CNEB</div>
+            <div class="sec-s">Enfoque formativo · Nivel Secundaria · Perú</div>
+          </div>
+        </div>
+        <div class="cg3" id="eval-g"></div>
+      </div>
+
+      <!-- ═══ GENERADOR IA ═══ -->
+      <div class="page" id="page-generador">
+        <div class="ai-banner">
+          <div style="font-size:34px;position:relative;z-index:1;">✨</div>
+          <div style="position:relative;z-index:1;">
+            <h3>Generador Completo · Gemini / Claude</h3>
+            <p>Configura el documento y obtén un resultado listo para exportar o imprimir.</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:350px 1fr;gap:18px;">
+          <div class="tc" style="padding:0;align-self:start;">
+            <div class="tc-hdr">
+              <div class="tc-ttl">⚙️ Configurar</div>
+            </div>
+            <div style="padding:14px;">
+              <div class="g2" style="gap:9px;margin-bottom:9px;">
+                <div class="fc"><label>Tipo</label><select id="gen-tipo">
+                    <option value="sesion">Sesión de Aprendizaje</option>
+                    <option value="unidad">Unidad Didáctica</option>
+                    <option value="anual">Plan Anual</option>
+                  </select></div>
+                <div class="fc"><label>Área</label><select id="gen-area"></select></div>
+                <div class="fc"><label>Grado</label><select id="gen-grado">
+                    <option>1°</option>
+                    <option>2°</option>
+                    <option selected>3°</option>
+                    <option>4°</option>
+                    <option>5°</option>
+                  </select></div>
+                <div class="fc"><label>Bimestre</label><select id="gen-bim">
+                    <option>I</option>
+                    <option>II</option>
+                    <option>III</option>
+                    <option>IV</option>
+                  </select></div>
+              </div>
+              <div class="fc" style="margin-bottom:9px;"><label>Tema / Situación significativa</label><input type="text"
+                  id="gen-tema" placeholder="Ej: Fracciones en el mercado local"></div>
+              <div class="fc" style="margin-bottom:11px;"><label>Contexto / Localidad</label><input type="text"
+                  id="gen-ctx" placeholder="Ej: Sierra peruana, comunidad andina"></div>
+              <div
+                style="font-size:11px;color:var(--ink3);padding:7px 10px;background:var(--paper3);border-radius:7px;margin-bottom:9px;">
+                Motor: <strong id="gen-eng-lbl">Gemini 2.0 Flash</strong></div>
+              <button class="btn-ai-gem" style="width:100%;padding:11px;font-size:13px;justify-content:center;"
+                id="btn-gen" onclick="genCompleto()">✨ Generar documento completo</button>
+            </div>
+          </div>
+          <div class="tc" style="padding:0;">
+            <div class="tc-hdr">
+              <div class="tc-ttl">📄 Resultado generado</div>
+              <div style="display:flex;gap:5px;" id="gen-btns"></div>
+            </div>
+            <div style="padding:14px;">
+              <div class="ld" id="gen-ld">
+                <div class="ldf"></div>
+              </div>
+              <div id="gen-r" style="min-height:320px;font-size:12.5px;line-height:1.7;color:var(--ink3);">El documento
+                generado aparecerá aquí...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ CONFIG IA ═══ -->
+      <div class="page" id="page-config">
+        <div class="sec">
+          <div>
+            <div class="sec-t">⚙️ Configuración del Sistema</div>
+            <div class="sec-s">Datos de la I.E., año lectivo, IA y perfil docente</div>
+          </div>
+        </div>
+
+        <!-- ── FILA 1: IA + IE ── -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;">
+
+          <!-- IA CARD -->
+          <div class="card">
+            <div class="fst" style="margin-bottom:12px;">🤖 Motor de Inteligencia Artificial</div>
+            <div style="display:flex;gap:7px;margin-bottom:16px;flex-wrap:wrap;">
+              <button class="eng-btn" id="eng-cop-btn" onclick="setEngine('copilot')"
+                style="background:#0078d4;color:#fff;border:none;padding:6px 13px;border-radius:6px;cursor:pointer;font-weight:700;font-size:11.5px;">🟢
+                Copilot M365 (Recomendado)</button>
+              <button class="eng-btn eng-gem" id="eng-gem-btn" onclick="setEngine('gemini')">🔵 Gemini (Gratis)</button>
+              <button class="eng-btn eng-cla" id="eng-cla-btn" onclick="setEngine('claude')">🟠 Claude
+                (Premium)</button>
+            </div>
+
+            <!-- COPILOT -->
+            <div id="cfg-cop">
+              <div
+                style="background:#e6f3fb;border-radius:7px;padding:10px;margin-bottom:10px;font-size:11.5px;line-height:1.7;">
+                <strong style="color:#0078d4;">Microsoft Copilot / OpenAI · M365 Premium</strong><br>
+                1. Ve a <a href="https://platform.openai.com/api-keys" target="_blank"
+                  style="color:#0078d4;font-weight:700;">platform.openai.com/api-keys</a> y crea una API Key.<br>
+                2. O usa tu clave de Azure OpenAI si tienes M365 Enterprise.<br>
+                3. Ingresa la key abajo y selecciona el modelo (gpt-4o recomendado).
+              </div>
+              <div class="g2" style="gap:9px;margin-bottom:9px;">
+                <div class="fc fspan"><label>API Key de Copilot/OpenAI <span id="cop-st"
+                      style="color:var(--green);font-size:9px;"></span></label>
+                  <div style="display:flex;gap:6px;"><input type="text" id="cop-key" placeholder="sk-..."
+                      style="flex:1;font-family:monospace;font-size:11.5px;"><button class="btn btn-sm"
+                      style="background:#0078d4;color:#fff;flex-shrink:0;" onclick="saveKey('cop')">💾 Guardar</button>
+                  </div>
+                </div>
+                <div class="fc fspan"><label>Endpoint (opcional, solo Azure)</label>
+                  <input type="text" id="cop-endpoint" placeholder="https://api.openai.com/v1/chat/completions"
+                    style="font-size:11px;" oninput="localStorage.setItem('pd_cop_endpoint',this.value)">
+                </div>
+                <div class="fc fspan"><label>Modelo</label>
+                  <select id="cop-model" onchange="COP_MDL=this.value;localStorage.setItem('pd_cop_mdl',this.value);">
+                    <option value="gpt-4o">gpt-4o (Recomendado · Copilot M365)</option>
+                    <option value="gpt-4o-mini">gpt-4o-mini (Más rápido)</option>
+                    <option value="gpt-4-turbo">gpt-4-turbo</option>
+                    <option value="o1-mini">o1-mini (Razonamiento)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- GEMINI -->
+            <div id="cfg-gem" style="display:none;">
+              <div
+                style="background:var(--blue-l);border-radius:7px;padding:10px;margin-bottom:10px;font-size:11.5px;line-height:1.7;">
+                <strong style="color:var(--blue);">Google Gemini · Gratis</strong><br>
+                Obtén tu clave en <a href="https://aistudio.google.com/apikey" target="_blank"
+                  style="color:var(--blue);font-weight:700;">Google AI Studio</a>. Requiere servidor web (no
+                doble-clic).
+              </div>
+              <div class="g2" style="gap:9px;margin-bottom:9px;">
+                <div class="fc fspan"><label>API Key de Gemini <span id="gem-st"
+                      style="color:var(--green);font-size:9px;"></span></label>
+                  <div style="display:flex;gap:6px;"><input type="text" id="gem-key" placeholder="AIzaSy..."
+                      style="flex:1;font-family:monospace;font-size:11.5px;"><button class="btn btn-green btn-sm"
+                      onclick="saveKey('gem')">💾</button></div>
+                </div>
+                <div class="fc fspan"><label>Modelo</label><select id="gem-model">
+                    <option value="gemini-2.0-flash">gemini-2.0-flash (Rápido)</option>
+                    <option value="gemini-1.5-flash">gemini-1.5-flash</option>
+                    <option value="gemini-1.5-pro">gemini-1.5-pro</option>
+                  </select></div>
+              </div>
+            </div>
+
+            <!-- CLAUDE -->
+            <div id="cfg-cla" style="display:none;">
+              <div
+                style="background:var(--orange-l);border-radius:7px;padding:10px;margin-bottom:10px;font-size:11.5px;line-height:1.6;">
+                <strong style="color:var(--orange);">Anthropic Claude · Premium</strong><br>
+                Requiere cuenta en <a href="https://console.anthropic.com/" target="_blank"
+                  style="color:var(--orange);">Anthropic Console</a>.
+              </div>
+              <div class="g2" style="gap:9px;margin-bottom:9px;">
+                <div class="fc fspan"><label>API Key de Claude <span id="cla-st"
+                      style="color:var(--green);font-size:9px;"></span></label>
+                  <div style="display:flex;gap:6px;"><input type="text" id="cla-key" placeholder="sk-ant-..."
+                      style="flex:1;font-family:monospace;font-size:11.5px;"><button class="btn btn-sm"
+                      style="background:var(--orange);color:#fff;flex-shrink:0;" onclick="saveKey('cla')">💾</button>
+                  </div>
+                </div>
+                <div class="fc fspan"><label>Modelo</label><select id="cla-model">
+                    <option value="claude-sonnet-4-5-20251001">claude-sonnet-4-5 (Recomendado)</option>
+                    <option value="claude-haiku-4-5-20251001">claude-haiku-4-5 (Rápido)</option>
+                  </select></div>
+              </div>
+            </div>
+
+            <button class="btn btn-green btn-sm" style="width:100%;margin-top:10px;" onclick="testIA()">🧪 Probar
+              conexión IA</button>
+            <div id="test-r" style="margin-top:8px;font-size:11.5px;"></div>
+          </div>
+
+          <!-- IE PROFILE CARD -->
+          <div class="card">
+            <div class="fst" style="margin-bottom:12px;">🏫 Datos de la Institución Educativa</div>
+            <div class="g2" style="gap:9px;margin-bottom:10px;">
+              <div class="fc fspan"><label>Institución Educativa</label><input type="text" id="cfg-ie"
+                  value="I.E. N° 1361 - 8 de Julio"></div>
+              <div class="fc"><label>Código modular / N°</label><input type="text" id="cfg-dir1"
+                  placeholder="Ej: 0812345"></div>
+              <div class="fc"><label>DRE</label><input type="text" id="cfg-dre" value="San Martín"></div>
+              <div class="fc"><label>UGEL</label><input type="text" id="cfg-ugel" value="UGEL El Dorado"></div>
+              <div class="fc"><label>Región / Provincia</label><input type="text" id="cfg-reg"
+                  value="Sauce, San Martín"></div>
+              <div class="fc"><label>Año Lectivo</label><input type="text" id="cfg-anio" value="2026"></div>
+              <div class="fc fspan"><label>Director(a)</label><input type="text" id="cfg-director"
+                  placeholder="Nombre completo del director(a)"></div>
+              <div class="fc fspan"><label>Coordinador(a) Pedagógico</label><input type="text" id="cfg-coord"
+                  placeholder="Nombre completo del coordinador(a)"></div>
+              <div class="fc fspan" style="border-top:1px solid #eee;padding-top:8px;margin-top:2px;">
+                <div class="fst" style="font-size:11.5px;margin-bottom:6px;">👤 Perfil Docente</div>
+              </div>
+              <div class="fc fspan"><label>Nombre completo del docente</label><input type="text" id="cfg-nombre"
+                  value="Lic. Denis Marx Diaz Huaroto"></div>
+              <div class="fc"><label>Especialidad / Área</label><input type="text" id="cfg-espec" value="Matemática">
+              </div>
+              <div class="fc"><label>Nivel</label><select id="cfg-nivel">
+                  <option selected>Secundaria</option>
+                  <option>Primaria</option>
+                </select></div>
+              <div class="fc"><label>Horas semanales del área</label><input type="number" id="cfg-horas" value="5"
+                  min="1" max="10"></div>
+              <div class="fc fspan"><label>Grados a cargo</label><input type="text" id="cfg-grados"
+                  value="1°A, 1°B, 1°C"></div>
+            </div>
+            <button class="btn btn-red btn-sm" style="width:100%;" onclick="saveProfile()">💾 Guardar configuración de
+              I.E. y aplicar a todos los documentos</button>
+            <div style="font-size:10px;color:var(--ink3);margin-top:5px;text-align:center;">Los datos se aplicarán
+              automáticamente a todos los planes, unidades y sesiones nuevas.</div>
+          </div>
+        </div>
+
+        <!-- ── FILA 2: AÑO LECTIVO (calendarización configurable) ── -->
+        <div class="card" style="margin-bottom:0;">
+          <div class="fst" style="margin-bottom:12px;">📅 Año Lectivo – Calendarización de la I.E. N° 1361</div>
+          <div style="font-size:11.5px;color:var(--ink3);margin-bottom:12px;">Configura las fechas exactas de inicio y
+            fin de cada bimestre según el calendario de tu institución. Estas fechas se usarán en todos los documentos
+            exportados.</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;">
+            <div class="card" style="border-top:3px solid #1565C0;padding:10px;">
+              <div style="font-size:10px;font-weight:700;color:#1565C0;margin-bottom:6px;">BIMESTRE I</div>
+              <div class="fc"><label style="font-size:10px;">Inicio</label><input type="date" id="bim1-ini"
+                  value="2026-03-16" oninput="calcSem(1)"></div>
+              <div class="fc"><label style="font-size:10px;">Fin</label><input type="date" id="bim1-fin"
+                  value="2026-05-08" oninput="calcSem(1)"></div>
+              <div class="fc"><label style="font-size:10px;">Semanas <span
+                    style="color:#2E7D32;font-size:9px;">(calculado automático)</span></label>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <input type="number" id="bim1-sem" value="8" min="1" max="40"
+                    style="background:#f0fff4;font-weight:700;color:#2E7D32;" readonly>
+                  <span id="bim1-dias" style="font-size:10px;color:var(--ink3);white-space:nowrap;">40 días</span>
+                </div>
+              </div>
+            </div>
+            <div class="card" style="border-top:3px solid #2E7D32;padding:10px;">
+              <div style="font-size:10px;font-weight:700;color:#2E7D32;margin-bottom:6px;">BIMESTRE II</div>
+              <div class="fc"><label style="font-size:10px;">Inicio</label><input type="date" id="bim2-ini"
+                  value="2026-05-18" oninput="calcSem(2)"></div>
+              <div class="fc"><label style="font-size:10px;">Fin</label><input type="date" id="bim2-fin"
+                  value="2026-07-24" oninput="calcSem(2)"></div>
+              <div class="fc"><label style="font-size:10px;">Semanas <span
+                    style="color:#2E7D32;font-size:9px;">(calculado automático)</span></label>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <input type="number" id="bim2-sem" value="9" min="1" max="40"
+                    style="background:#f0fff4;font-weight:700;color:#2E7D32;" readonly>
+                  <span id="bim2-dias" style="font-size:10px;color:var(--ink3);white-space:nowrap;">45 días</span>
+                </div>
+              </div>
+            </div>
+            <div class="card" style="border-top:3px solid #E65100;padding:10px;">
+              <div style="font-size:10px;font-weight:700;color:#E65100;margin-bottom:6px;">BIMESTRE III</div>
+              <div class="fc"><label style="font-size:10px;">Inicio</label><input type="date" id="bim3-ini"
+                  value="2026-08-10" oninput="calcSem(3)"></div>
+              <div class="fc"><label style="font-size:10px;">Fin</label><input type="date" id="bim3-fin"
+                  value="2026-10-09" oninput="calcSem(3)"></div>
+              <div class="fc"><label style="font-size:10px;">Semanas <span
+                    style="color:#2E7D32;font-size:9px;">(calculado automático)</span></label>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <input type="number" id="bim3-sem" value="9" min="1" max="40"
+                    style="background:#f0fff4;font-weight:700;color:#2E7D32;" readonly>
+                  <span id="bim3-dias" style="font-size:10px;color:var(--ink3);white-space:nowrap;">45 días</span>
+                </div>
+              </div>
+            </div>
+            <div class="card" style="border-top:3px solid #6A1B9A;padding:10px;">
+              <div style="font-size:10px;font-weight:700;color:#6A1B9A;margin-bottom:6px;">BIMESTRE IV</div>
+              <div class="fc"><label style="font-size:10px;">Inicio</label><input type="date" id="bim4-ini"
+                  value="2026-10-19" oninput="calcSem(4)"></div>
+              <div class="fc"><label style="font-size:10px;">Fin</label><input type="date" id="bim4-fin"
+                  value="2026-12-18" oninput="calcSem(4)"></div>
+              <div class="fc"><label style="font-size:10px;">Semanas <span
+                    style="color:#2E7D32;font-size:9px;">(calculado automático)</span></label>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <input type="number" id="bim4-sem" value="9" min="1" max="40"
+                    style="background:#f0fff4;font-weight:700;color:#2E7D32;" readonly>
+                  <span id="bim4-dias" style="font-size:10px;color:var(--ink3);white-space:nowrap;">45 días</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding:8px 12px;background:#f0fff4;border-radius:6px;border:1px solid #c3e6cb;">
+            <span style="font-size:11px;color:var(--ink3);">Total calculado:</span>
+            <span id="cfg-total-sem" style="font-size:12px;font-weight:700;color:#2E7D32;">— semanas</span>
+          </div>
+          <button class="btn btn-green btn-sm" style="width:100%;" onclick="saveCal()">💾 Guardar
+            Calendarización</button>
+          <div style="font-size:10px;color:var(--ink3);margin-top:5px;text-align:center;">Las semanas se calculan
+            automáticamente al ingresar las fechas de inicio y fin (solo días hábiles lunes–viernes).</div>
+        </div>
+      </div>
+      <!-- ═══ CALENDARIO ═══ -->
+      <div class="page" id="page-calendario">
+        <div class="sec">
+          <div>
+            <div class="sec-t" id="cal-title">Calendario Lectivo 2026</div>
+            <div class="sec-s" id="cal-sub">Año escolar MINEDU · Nivel Secundaria · Perú</div>
+          </div>
+          <button class="btn btn-ghost btn-sm" onclick="go('config')" style="font-size:11px;">⚙️ Configurar
+            fechas</button>
+        </div>
+
+        <!-- Tarjetas de bimestres -->
+        <div id="cal-cards" style="display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px;"></div>
+
+        <!-- Tabla resumen año lectivo -->
+        <div class="card">
+          <div class="fst" style="margin-bottom:12px;">📋 Resumen del Año Lectivo</div>
+          <div id="cal-table-wrap"></div>
+          <div style="margin-top:10px;font-size:10.5px;color:var(--ink3);text-align:center;">
+            Las fechas se configuran en <strong>⚙️ Configuración → Año Lectivo</strong>. Los cambios se reflejan
+            automáticamente aquí y en todos los documentos exportados.
+          </div>
+        </div>
+      </div>
+    </div><!-- /main -->
+  </div><!-- /shell -->
+  <!-- ═══════════ MODAL PLAN ANUAL ═══════════ -->
+  <div class="ov" id="ov-pa">
+    <div class="modal">
+      <div class="mhdr">
+        <div class="mttl">📅 Plan Anual · <span id="pa-sub">Nuevo Plan</span></div>
+        <button class="mx" onclick="cerrar('ov-pa')">×</button>
+      </div>
+      <div class="mbody">
+        <input type="hidden" id="pa-id" value="">
+        <div class="fs">
+          <div class="fst">🏫 Institución y Año Lectivo</div>
+          <div class="g3">
+            <div class="fc fspan"><label>Institución Educativa</label><input type="text" id="pa-ie"
+                value="I.E. San Martín de Porres"></div>
+            <div class="fc"><label>UGEL</label><input type="text" id="pa-ugel" value="UGEL 05"></div>
+            <div class="fc"><label>Región / DRE</label><input type="text" id="pa-reg" value="Lima Metropolitana"></div>
+            <div class="fc"><label>Año Lectivo</label><input type="text" id="pa-anio" value="2026"></div>
+          </div>
+        </div>
+        <div class="fs">
+          <div class="fst">👤 Docente y Configuración del Plan</div>
+          <div class="g3">
+            <div class="fc"><label>Docente Responsable</label><input type="text" id="pa-doc" value="Mg. María Pérez">
+            </div>
+            <div class="fc"><label>Área Curricular</label><select id="pa-area" onchange="onArea('pa')"></select></div>
+            <div class="fc"><label>Grado</label><select id="pa-grado">
+                <option>1°</option>
+                <option>2°</option>
+                <option selected>3°</option>
+                <option>4°</option>
+                <option>5°</option>
+              </select></div>
+            <div class="fc"><label>Sección(es)</label><input type="text" id="pa-secc" value="A · B"></div>
+            <div class="fc"><label>Horas semanales</label><input type="number" id="pa-horas" value="4" min="1" max="12">
+            </div>
+            <div class="fc"><label>Nivel / Ciclo</label><select id="pa-ciclo">
+                <option>Secundaria – Ciclo VI (1° y 2°)</option>
+                <option selected>Secundaria – Ciclo VII (3°, 4° y 5°)</option>
+              </select></div>
+            <div class="fc"><label>Estado del documento</label><select id="pa-status">
+                <option value="borrador">Borrador</option>
+                <option value="progreso">En progreso</option>
+                <option value="completo">Completo</option>
+              </select></div>
+            <div class="fc"><label>Modalidad</label><select id="pa-modal">
+                <option>Presencial</option>
+                <option>Semipresencial</option>
+                <option>Virtual</option>
+              </select></div>
+            <div class="fc"><label>N° de unidades planificadas</label><input type="number" id="pa-nunits" value="8"
+                min="1" max="16"></div>
+          </div>
+          <div class="fc fspan" style="margin-top:9px;">
+            <label>Presentación del área (opcional)</label>
+            <textarea id="pa-pres" placeholder="Breve descripción del área y su importancia para el grado..."
+              style="min-height:55px;"></textarea>
+          </div>
+        </div>
+        <div class="fs">
+          <div class="fst">⭐ Competencias, Capacidades y Desempeños del Área (CNEB)</div>
+          <div id="pa-cp" class="cp" style="display:none;"></div>
+          <div class="fc fspan" style="display:none;"><label>Competencias del área (CNEB)</label>
+            <textarea id="pa-comp" style="display:none;"></textarea>
+          </div>
+          <div class="fc fspan" style="margin-top:6px;">
+            <textarea id="pa-caps" style="display:none;"></textarea>
+            <!-- CNEB 3-col competencias table -->
+            <div id="pa-cneb-table" style="margin-top:8px;overflow-x:auto;border-radius:8px;overflow:hidden;"></div>
+            <div
+              style="font-size:9.5px;color:var(--ink3);margin:5px 0 0;padding:5px 8px;background:#f8f8f8;border-radius:5px;">
+              💡 Tabla generada automáticamente desde el CNEB según el área seleccionada.
+            </div>
+            <div style="font-size:10px;color:var(--ink3);margin-top:2px;">💡 Estas capacidades se propagarán
+              automáticamente a todas tus Unidades y Sesiones nuevas.</div>
+          </div>
+          <div class="fc fspan" style="border-top:1px dashed #ddd;padding-top:10px;margin-top:8px;">
+            <div class="fst" style="font-size:12px;margin-bottom:6px;">📊 Metas del Periodo Lectivo — Evaluación
+              Diagnóstica y de Salida</div>
+            <div style="font-size:11px;color:var(--ink3);margin-bottom:8px;">Ingresa el número de estudiantes (o
+              porcentaje) por nivel de logro para cada competencia.</div>
+            <div style="overflow-x:auto;">
+              <table style="width:100%;border-collapse:collapse;font-size:10.5px;min-width:560px;">
+                <tr>
+                  <th style="padding:4px 6px;border:1px solid #ddd;background:#f5f5f5;text-align:left;width:28%;">
+                    COMPETENCIA</th>
+                  <th style="padding:4px;border:1px solid #ddd;background:#1565C0;color:#fff;text-align:center;"
+                    colspan="4">EVALUACIÓN DIAGNÓSTICA</th>
+                  <th style="padding:4px;border:1px solid #ddd;background:#2E7D32;color:#fff;text-align:center;"
+                    colspan="4">META DE SALIDA 2026</th>
+                </tr>
+                <tr>
+                  <th style="padding:3px 6px;border:1px solid #ddd;background:#f5f5f5;"></th>
+                  <th style="padding:3px 5px;border:1px solid #ddd;background:#e8f0fe;text-align:center;width:7%;">C %
+                  </th>
+                  <th style="padding:3px 5px;border:1px solid #ddd;background:#e8f0fe;text-align:center;width:7%;">B %
+                  </th>
+                  <th style="padding:3px 5px;border:1px solid #ddd;background:#e8f0fe;text-align:center;width:7%;">A %
+                  </th>
+                  <th style="padding:3px 5px;border:1px solid #ddd;background:#e8f0fe;text-align:center;width:7%;">AD %
+                  </th>
+                  <th style="padding:3px 5px;border:1px solid #ddd;background:#e8f7ee;text-align:center;width:7%;">C %
+                  </th>
+                  <th style="padding:3px 5px;border:1px solid #ddd;background:#e8f7ee;text-align:center;width:7%;">B %
+                  </th>
+                  <th style="padding:3px 5px;border:1px solid #ddd;background:#e8f7ee;text-align:center;width:7%;">A %
+                  </th>
+                  <th style="padding:3px 5px;border:1px solid #ddd;background:#e8f7ee;text-align:center;width:7%;">AD %
+                  </th>
+                </tr>
+                <tbody id="pa-meta-tbody">
+                  <tr>
+                    <td colspan="9" style="text-align:center;padding:8px;color:#888;font-size:11px;">Selecciona un área
+                      para ver las competencias...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="fs">
+          <div class="asz">
+            <div class="asz-h">
+              <div class="asz-ttl">🤖 Sugerencia IA · Completar bimestres automáticamente</div>
+              <button class="btn-ai-gem btn-sm" id="btn-pa-ai" onclick="suPA()">✨ Obtener Sugerencia</button>
+            </div>
+            <div class="ld" id="pa-ld">
+              <div class="ldf"></div>
+            </div>
+            <div id="pa-msg" class="asz-msg">La IA completará las unidades por bimestre contextualizadas al Perú y
+              alineadas al CNEB.</div>
+          </div>
+        </div>
+        <div class="fs" style="padding:0;background:none;border:none;">
+
+          <!-- ══ BLOQUE A: ORGANIZACIÓN POR BIMESTRE ══ -->
+          <div
+            style="background:var(--paper2);border:1.5px solid #e0e0e0;border-radius:14px;padding:16px 18px;margin-bottom:16px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+              <span style="font-size:20px;">📆</span>
+              <div>
+                <div class="fst" style="font-size:13px;">Organización de Unidades por Bimestre</div>
+                <div style="font-size:10px;color:var(--ink3);">Escribe los títulos de las unidades — una por línea en
+                  cada bimestre</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+
+              <div style="background:#EEF4FF;border-top:3px solid #1565C0;border-radius:10px;padding:12px;">
+                <label style="color:#1565C0;font-weight:700;font-size:11.5px;">● Bimestre I</label>
+                <div style="font-size:10px;color:#1565C0;font-weight:600;margin:2px 0 1px;"><span
+                    id="lbl-b1-dates">...</span></div>
+                <div style="font-size:9.5px;color:var(--ink3);margin-bottom:7px;"><span id="lbl-b1-sem">—</span> semanas
+                  lectivas</div>
+                <textarea id="pa-b1" placeholder="Unidad 1: Título&#10;Unidad 2: Título"
+                  style="width:100%;min-height:110px;font-size:11px;box-sizing:border-box;border:1px solid #BBDEFB;border-radius:6px;padding:7px;background:#fff;resize:vertical;"></textarea>
+              </div>
+
+              <div style="background:#EDFAED;border-top:3px solid #2E7D32;border-radius:10px;padding:12px;">
+                <label style="color:#2E7D32;font-weight:700;font-size:11.5px;">● Bimestre II</label>
+                <div style="font-size:10px;color:#2E7D32;font-weight:600;margin:2px 0 1px;"><span
+                    id="lbl-b2-dates">...</span></div>
+                <div style="font-size:9.5px;color:var(--ink3);margin-bottom:7px;"><span id="lbl-b2-sem">—</span> semanas
+                  lectivas</div>
+                <textarea id="pa-b2" placeholder="Unidad 3: Título&#10;Unidad 4: Título"
+                  style="width:100%;min-height:110px;font-size:11px;box-sizing:border-box;border:1px solid #C8E6C9;border-radius:6px;padding:7px;background:#fff;resize:vertical;"></textarea>
+              </div>
+
+              <div style="background:#FFF3EE;border-top:3px solid #E65100;border-radius:10px;padding:12px;">
+                <label style="color:#E65100;font-weight:700;font-size:11.5px;">● Bimestre III</label>
+                <div style="font-size:10px;color:#E65100;font-weight:600;margin:2px 0 1px;"><span
+                    id="lbl-b3-dates">...</span></div>
+                <div style="font-size:9.5px;color:var(--ink3);margin-bottom:7px;"><span id="lbl-b3-sem">—</span> semanas
+                  lectivas</div>
+                <textarea id="pa-b3" placeholder="Unidad 5: Título&#10;Unidad 6: Título"
+                  style="width:100%;min-height:110px;font-size:11px;box-sizing:border-box;border:1px solid #FFCCBC;border-radius:6px;padding:7px;background:#fff;resize:vertical;"></textarea>
+              </div>
+
+              <div style="background:#F7EEFF;border-top:3px solid #6A1B9A;border-radius:10px;padding:12px;">
+                <label style="color:#6A1B9A;font-weight:700;font-size:11.5px;">● Bimestre IV</label>
+                <div style="font-size:10px;color:#6A1B9A;font-weight:600;margin:2px 0 1px;"><span
+                    id="lbl-b4-dates">...</span></div>
+                <div style="font-size:9.5px;color:var(--ink3);margin-bottom:7px;"><span id="lbl-b4-sem">—</span> semanas
+                  lectivas</div>
+                <textarea id="pa-b4" placeholder="Unidad 7: Título&#10;Unidad 8: Título"
+                  style="width:100%;min-height:110px;font-size:11px;box-sizing:border-box;border:1px solid #E1BEE7;border-radius:6px;padding:7px;background:#fff;resize:vertical;"></textarea>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ══ BLOQUE B: DETALLE DE ORGANIZACIÓN ══ -->
+          <div style="background:var(--paper2);border:1.5px solid #e0e0e0;border-radius:14px;padding:16px 18px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+              <span style="font-size:20px;">📋</span>
+              <div>
+                <div class="fst" style="font-size:13px;">V. Organización de Unidades — Detalle</div>
+                <div style="font-size:10px;color:var(--ink3);">Una entrada por línea · mismo orden que los bimestres
+                  (Unidad 0, Unidad 1, Unidad 2...)</div>
+              </div>
+            </div>
+
+            <!-- Situaciones — fila completa destacada -->
+            <div
+              style="background:linear-gradient(135deg,#FFFDE7,#FFF9C4);border:1.5px solid #F9A825;border-radius:10px;padding:14px 16px;margin-bottom:14px;">
+              <div style="display:flex;align-items:center;gap:7px;margin-bottom:8px;">
+                <span style="font-size:17px;">🌍</span>
+                <div>
+                  <div style="font-size:12px;font-weight:700;color:#E65100;">Situaciones Significativas</div>
+                  <div style="font-size:10px;color:var(--ink3);">Inicia cada línea con "Unidad 0:", "Unidad 1:", etc.
+                  </div>
+                </div>
+              </div>
+              <textarea id="pa-sits" rows="4"
+                placeholder="Unidad 0: Al iniciar el año escolar los estudiantes de 1° Secundaria de la I.E. N° 1361 - 8 de Julio...&#10;Unidad 1: En la comunidad de Sauce se observa que muchos estudiantes presentan problemas de nutrición..."
+                style="width:100%;font-size:11px;box-sizing:border-box;border:1px solid #F9A825;border-radius:6px;padding:8px;background:#fffef5;resize:vertical;"></textarea>
+            </div>
+
+            <!-- 4 columnas: campos / producto / duración / enfoques -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+
+              <div style="background:#EEF4FF;border-top:3px solid #1565C0;border-radius:10px;padding:12px;">
+                <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px;">
+                  <span style="font-size:14px;">📚</span>
+                  <div style="font-size:11px;font-weight:700;color:#1565C0;">Campos Temáticos</div>
+                </div>
+                <div style="font-size:9.5px;color:var(--ink3);margin-bottom:7px;">Temas separados por coma</div>
+                <textarea id="pa-campos"
+                  placeholder="Unidad 0: Diagnóstico, Núm. naturales&#10;Unidad 1: Números primos, MCM, MCD&#10;Unidad 2: Fracciones, Tablas"
+                  style="width:100%;font-size:10.5px;box-sizing:border-box;border:1px solid #BBDEFB;border-radius:5px;padding:7px;background:#fff;resize:vertical;min-height:120px;"></textarea>
+              </div>
+
+              <div style="background:#EDFAED;border-top:3px solid #2E7D32;border-radius:10px;padding:12px;">
+                <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px;">
+                  <span style="font-size:14px;">🏆</span>
+                  <div style="font-size:11px;font-weight:700;color:#2E7D32;">Producto de Unidad</div>
+                </div>
+                <div style="font-size:9.5px;color:var(--ink3);margin-bottom:7px;">Un producto por línea</div>
+                <textarea id="pa-prods"
+                  placeholder="Unidad 0: Prueba diagnóstica&#10;Unidad 1: Planificador Matemático&#10;Unidad 2: Reporte de Eco-Eficiencia"
+                  style="width:100%;font-size:10.5px;box-sizing:border-box;border:1px solid #C8E6C9;border-radius:5px;padding:7px;background:#fff;resize:vertical;min-height:120px;"></textarea>
+              </div>
+
+              <div style="background:#FFF3F0;border-top:3px solid #C0392B;border-radius:10px;padding:12px;">
+                <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px;">
+                  <span style="font-size:14px;">⏱</span>
+                  <div style="font-size:11px;font-weight:700;color:#C0392B;">Duración</div>
+                </div>
+                <div style="font-size:9.5px;color:var(--ink3);margin-bottom:7px;">Semanas por unidad</div>
+                <textarea id="pa-durs"
+                  placeholder="Unidad 0: 1 semana&#10;Unidad 1: 4 semanas&#10;Unidad 2: 4 semanas&#10;Unidad 3: 4 semanas"
+                  style="width:100%;font-size:10.5px;box-sizing:border-box;border:1px solid #FFCDD2;border-radius:5px;padding:7px;background:#fff;resize:vertical;min-height:120px;"></textarea>
+              </div>
+
+              <div style="background:#F7EEFF;border-top:3px solid #6A1B9A;border-radius:10px;padding:12px;">
+                <div style="display:flex;align-items:center;gap:5px;margin-bottom:8px;">
+                  <span style="font-size:14px;">🌐</span>
+                  <div style="font-size:11px;font-weight:700;color:#6A1B9A;">Enfoques Transversales por Unidad</div>
+                </div>
+                <div style="font-size:9.5px;color:var(--ink3);margin-bottom:5px;">Una línea por unidad · mismo orden que
+                  los bimestres</div>
+                <textarea id="pa-enfs-det"
+                  placeholder="Unidad 0: Enfoque Ambiental&#10;Unidad 1: Ambiental, Bien Común&#10;Unidad 2: Enfoque Ambiental&#10;Unidad 3: Intercultural"
+                  style="width:100%;font-size:10.5px;box-sizing:border-box;border:1px solid #E1BEE7;border-radius:5px;padding:6px;background:#fff;resize:vertical;min-height:80px;"></textarea>
+                <div style="font-size:9.5px;color:#6A1B9A;font-weight:600;margin:7px 0 3px;">⚖️ Valores por Unidad</div>
+                <div style="font-size:9px;color:var(--ink3);margin-bottom:4px;">Una línea por unidad · ej: "Unidad 0:
+                  Responsabilidad, Solidaridad"</div>
+                <textarea id="pa-enf-vals"
+                  placeholder="Unidad 0: Responsabilidad ambiental, Solidaridad&#10;Unidad 1: Perseverancia, Superación personal&#10;Unidad 2: Equidad, Justicia&#10;Unidad 3: Respeto a la identidad cultural"
+                  style="width:100%;font-size:10.5px;box-sizing:border-box;border:1px solid #CE93D8;border-radius:5px;padding:6px;background:#fff;resize:vertical;min-height:65px;"></textarea>
+                <div style="font-size:9.5px;color:#6A1B9A;font-weight:600;margin:7px 0 3px;">📋 Actitudes / Acciones
+                  Observables por Unidad</div>
+                <div style="font-size:9px;color:var(--ink3);margin-bottom:4px;">Una línea por unidad · describe la
+                  actitud observable</div>
+                <textarea id="pa-enf-obs"
+                  placeholder="Unidad 0: Los estudiantes demuestran responsabilidad en el cuidado del entorno.&#10;Unidad 1: Muestran perseverancia ante las dificultades académicas.&#10;Unidad 2: Practican la equidad en trabajos grupales."
+                  style="width:100%;font-size:10.5px;box-sizing:border-box;border:1px solid #CE93D8;border-radius:5px;padding:6px;background:#fff;resize:vertical;min-height:65px;"></textarea>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="fs">
+          <div class="fst">🌐 Enfoques, Evaluación y Recursos</div>
+          <div class="g3">
+            <input type="hidden" id="pa-enf" value="Ambiental, Inclusión, Bien Común">
+            <div class="fc"><label>Instrumentos de Evaluación</label><input type="text" id="pa-eval"
+                value="Rúbrica, Lista de cotejo, Escala AD/A/B/C"></div>
+            <div class="fc"><label>Materiales y Recursos</label><input type="text" id="pa-mat"
+                value="Textos MINEDU, fichas, recursos TIC"></div>
+            <div class="fc"></div>
+            <div class="fc fspan" style="border-top:1px dashed #eee;padding-top:10px;margin-top:4px;">
+              <div class="fst" style="font-size:11px;margin-bottom:8px;">📚 VIII. Referencias Bibliográficas</div>
+            </div>
+            <div class="fc">
+              <label>Bibliografía para el Docente</label>
+              <textarea id="pa-bib-doc" style="min-height:80px;"
+                placeholder="- Currículo Nacional de Educación Básica, MINEDU.&#10;- Programa Curricular de Educación Secundaria, MINEDU.&#10;- Texto del área. MINEDU, 2025.">- Currículo Nacional de Educación Básica, MINEDU.
+- Programa Curricular de Educación Secundaria, MINEDU.
+- Texto del área. MINEDU, 2025.</textarea>
+            </div>
+            <div class="fc">
+              <label>Bibliografía para el Estudiante</label>
+              <textarea id="pa-bib-est" style="min-height:80px;"
+                placeholder="- Texto del área N° Grado. MINEDU, 2025.&#10;- Fichas del área. MINEDU, 2025.&#10;- Cuaderno de trabajo.">- Texto del área. MINEDU, 2025.
+- Fichas del área. MINEDU, 2025.
+- Cuaderno de trabajo.</textarea>
+            </div>
+            <input type="hidden" id="pa-bib" value="">
+            <div class="fc"><label>Aprobación / Revisión</label><select id="pa-apro">
+                <option>Pendiente de revisión</option>
+                <option>Revisado por subdirección</option>
+                <option>Aprobado por dirección</option>
+              </select></div>
+          </div>
+        </div>
+      </div>
+      <div class="mfoot">
+        <button class="btn btn-ghost" onclick="cerrar('ov-pa')">Cancelar</button>
+        <button class="btn btn-green" onclick="expPA('pdf')">📑 PDF</button>
+        <button class="btn btn-blue" onclick="expPA('word')">📄 Word</button>
+        <button class="btn btn-purple" onclick="impPA()">🖨 Imprimir</button>
+        <button class="btn btn-red" onclick="guarPA()">💾 Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ MODAL UNIDAD ═══════════ -->
+  <div class="ov" id="ov-ud">
+    <div class="modal">
+      <div class="mhdr">
+        <div class="mttl">📚 Unidad Didáctica · <span id="ud-sub">Nueva</span></div>
+        <button class="mx" onclick="sv('ud-id','');cerrar('ov-ud')">×</button>
+      </div>
+      <div class="mbody">
+        <input type="hidden" id="ud-id" value="">
+        <!-- PRECARGAR DESDE PLAN ANUAL -->
+        <div class="fs">
+          <div style="background:#eff5ff;border:1px solid #bbdefb;border-radius:6px;padding:12px;margin-bottom:12px;">
+            <div style="font-size:11px;font-weight:700;color:#1565c0;margin-bottom:8px;">📋 Precargar desde Plan Anual
+            </div>
+            <select id="sel-pa-preload" onchange="if(this.value)preloadUDfromPA(parseInt(this.value));"
+              style="width:100%;padding:6px;font-size:11px;border:1px solid #bbdefb;border-radius:4px;">
+              <option value="">— Selecciona un Plan Anual para precargar datos —</option>
+            </select>
+            <div style="font-size:9px;color:#1565c0;margin-top:6px;">💡 Se cargarán: Área, Grado, IE, Docente, Año y
+              enfoque transversal</div>
+          </div>
+        </div>
+        <div class="fs">
+          <div class="fst">📋 Identificación de la Unidad</div>
+          <div class="g3">
+            <div class="fc"><label>Institución Educativa</label><input type="text" id="ud-ie"
+                value="I.E. San Martín de Porres"></div>
+            <div class="fc"><label>Docente</label><input type="text" id="ud-doc" value="Mg. María Pérez"></div>
+            <div class="fc"><label>Año Lectivo</label><input type="text" id="ud-anio" value="2026"></div>
+            <div class="fc"><label>Área Curricular</label><select id="ud-area" onchange="onArea('ud')"></select></div>
+            <div class="fc"><label>Grado</label><select id="ud-grado">
+                <option>1°</option>
+                <option>2°</option>
+                <option selected>3°</option>
+                <option>4°</option>
+                <option>5°</option>
+              </select></div>
+            <div class="fc"><label>Sección</label><input type="text" id="ud-secc" value="A · B"></div>
+            <div class="fc"><label>Bimestre</label><select id="ud-bim">
+                <option>I</option>
+                <option>II</option>
+                <option>III</option>
+                <option>IV</option>
+              </select></div>
+            <div class="fc"><label>N° Unidad</label><input type="number" id="ud-num" value="0" min="0" max="10"></div>
+            <div class="fc"><label>N° Semanas</label><input type="number" id="ud-sem" value="5" min="1" max="14"
+                oninput="const v=parseInt(this.value)||4;renderSemanasUD(v,[]);renderRefuerzoUD(v,[]);updateWeekFields();">
+            </div>
+            <div class="fc"><label>Total horas</label><input type="number" id="ud-hrs" value="20" min="1"></div>
+            <div class="fc"><label>Ciclo CNEB</label><select id="ud-ciclo">
+                <option>Ciclo VI (1° y 2°)</option>
+                <option selected>Ciclo VII (3°, 4° y 5°)</option>
+              </select></div>
+            <div class="fc"><label>Modalidad</label><select id="ud-modal">
+                <option>Presencial</option>
+                <option>Semipresencial</option>
+                <option>Virtual</option>
+              </select></div>
+            <div class="fc"><label>Agrupamiento</label><select id="ud-agrup">
+                <option>Individual y grupal</option>
+                <option>Grupos de 4</option>
+                <option>Parejas</option>
+                <option>Individual</option>
+              </select></div>
+            <div class="fc"><label>Estado</label><select id="ud-status">
+                <option value="borrador">Borrador</option>
+                <option value="progreso">En progreso</option>
+                <option value="completo">Completo</option>
+              </select></div>
+          </div>
+          <div class="fc fspan" style="margin-top:9px;">
+            <label>Título de la Unidad <span style="color:var(--gold);font-size:9px;">✨ IA disponible</span></label>
+            <div class="fi"><input type="text" id="ud-tit"
+                placeholder="Título atractivo y contextualizado al Perú..."><button class="fib"
+                onclick="aiCampo('ud-tit','tit-ud')" title="Sugerir con IA">✨</button></div>
+          </div>
+        </div>
+        <div class="fs">
+          <div class="fst">📖 Situación Significativa</div>
+          <div class="fi">
+            <textarea id="ud-sit" style="min-height:85px;"
+              placeholder="Contexto real del entorno peruano que justifica y da sentido al aprendizaje de la unidad..."></textarea>
+            <button class="fib fib-ta" onclick="aiCampo('ud-sit','situacion')" title="Sugerir con IA">✨</button>
+          </div>
+        </div>
+        <div class="fs">
+          <div class="fst">⭐ Competencias, Capacidades y Desempeños</div>
+          <div class="g2">
+            <div class="fc">
+              <label>Competencias a desarrollar</label>
+              <textarea id="ud-comp" placeholder="Escribe o selecciona una competencia por línea..."
+                style="min-height:75px;" oninput="updateCaps('ud');updateDes('ud');"></textarea>
+              <div style="font-size:9.5px;color:var(--ink3);margin-top:3px;">💡 Escribe la competencia y se
+                autocompletan capacidades y desempeños</div>
+            </div>
+            <div class="fc">
+              <label>Capacidades a desarrollar <small style="color:var(--ink3);font-size:10px">(se
+                  autocompletan)</small></label>
+              <textarea id="ud-caps" placeholder="Se completan automáticamente al ingresar la competencia..."
+                style="min-height:60px;"></textarea>
+            </div>
+            <div class="fc">
+              <label>Desempeños precisados del ciclo <small style="color:var(--ink3);font-size:10px">(se
+                  autocompletan)</small></label>
+              <textarea id="ud-desemp" placeholder="Se completan automáticamente al ingresar la competencia..."
+                style="min-height:75px;"></textarea>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- PROPÓSITO Y CAMPO TEMÁTICO POR SEMANA -->
+        <div class="fs">
+          <div class="fst">📅 Propósito y Campo Temático por Semana <span
+              style="font-size:10px;color:var(--blue);text-transform:none;letter-spacing:0;">(según N° de
+              semanas)</span></div>
+          <div style="font-size:10px;color:var(--ink3);margin-bottom:8px;">Se generan automáticamente según el N° de
+            semanas indicado arriba.</div>
+          <div id="ud-semanas-grid" style="display:grid;gap:10px;"></div>
+        </div>
+
+        <div class="fs">
+          <div class="asz">
+            <div class="asz-h">
+              <div class="asz-ttl">🤖 Sugerencia IA · Completar todos los campos automáticamente</div>
+              <button class="btn-ai-gem btn-sm" id="btn-ud-ai" onclick="suUD()">✨ Obtener Sugerencia</button>
+            </div>
+            <div class="ld" id="ud-ld">
+              <div class="ldf"></div>
+            </div>
+            <div id="ud-msg" class="asz-msg">La IA completará: título, situación, competencias, desempeños, 6 procesos
+              pedagógicos y producto final.</div>
+          </div>
+        </div>
+
+        <div class="fs">
+          <div class="fst">📦 Producto, Evaluación y Recursos</div>
+          <div class="g3">
+            <div class="fc fi" style="grid-column:1/-1;"><label>Producto final <span
+                  style="color:var(--gold);font-size:9px;">✨ — se carga desde Plan Anual o escribe
+                  aquí</span></label><input type="text" id="ud-prod" placeholder="Ej: Informe del mercado local"
+                oninput="document.getElementById('ud-prod-pa-hint').style.display='none';"><button class="fib"
+                onclick="aiCampo('ud-prod','producto')">✨</button>
+              <div id="ud-prod-pa-hint"
+                style="display:none;margin-top:4px;font-size:10px;color:#1A4A9A;background:#EBF2FF;border-radius:5px;padding:4px 8px;">
+                📋 Tomado del Plan Anual · puedes editarlo libremente.</div>
+            </div>
+            <div class="fc"><label>Instrumento de evaluación</label><select id="ud-instr">
+                <option>Rúbrica</option>
+                <option>Lista de cotejo</option>
+                <option>Escala AD/A/B/C</option>
+                <option>Portafolio</option>
+                <option>Autoevaluación</option>
+              </select></div>
+            <div class="fc"><label>Tipo de evaluación</label><select id="ud-teval">
+                <option>Formativa</option>
+                <option>Sumativa</option>
+                <option>Procesual</option>
+                <option>Formativa + Sumativa</option>
+              </select></div>
+            <div class="fc"><label>Enfoques Transversales</label><input type="text" id="ud-enf"
+                value="Ambiental, Inclusión" oninput="autoFillEnfoque(this.value);"
+                placeholder="Ej: Ambiental, Bien Común"></div>
+            <div class="fc"><label>Valores del enfoque</label><input type="text" id="ud-enf-vals" value=""></div>
+            <div class="fc"><label>Actitudes/Acciones observables</label><input type="text" id="ud-enf-obs" value="">
+            </div>
+            <div class="fc"><label>Espacio de aprendizaje</label><select id="ud-esp">
+                <option>Aula</option>
+                <option>Laboratorio</option>
+                <option>Patio/campo</option>
+                <option>Biblioteca</option>
+                <option>Aula + campo</option>
+              </select></div>
+            <div class="fc"><label>Bibliografía</label><input type="text" id="ud-bib" value="Texto MINEDU, CNEB"></div>
+            <div class="fc fspan"><label>Materiales y Recursos</label><input type="text" id="ud-mat"
+                value="Textos MINEDU, fichas, recursos TIC, pizarra"></div>
+          </div>
+        </div>
+
+        <!-- SESIONES DE REFUERZO POR SEMANA -->
+        <div class="fs">
+          <div class="fst">🔁 Sesiones de Refuerzo Escolar por Semana <span
+              style="font-size:10px;color:var(--blue);text-transform:none;letter-spacing:0;">(según N° de
+              semanas)</span></div>
+          <div style="font-size:10px;color:var(--ink3);margin-bottom:8px;">Actividad de refuerzo para cada semana. La
+            última semana se reserva para el producto final.</div>
+          <div id="ud-refuerzo-grid" style="display:grid;gap:8px;"></div>
+        </div>
+
+      </div>
+      <div class="mfoot">
+        <button class="btn btn-ghost" onclick="sv('ud-id','');cerrar('ov-ud')">Cancelar</button>
+        <button class="btn btn-green" onclick="expUD('pdf')">📑 PDF</button>
+        <button class="btn btn-blue" onclick="expUD('word')">📄 Word</button>
+        <button class="btn btn-purple" onclick="impUD()">🖨 Imprimir</button>
+        <button class="btn btn-red" onclick="guarUD()">💾 Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ MODAL SESIÓN ═══════════ -->
+  <div class="ov" id="ov-ses">
+    <div class="modal">
+      <div class="mhdr">
+        <div class="mttl">🎯 Sesión de Aprendizaje · <span id="ses-sub">Nueva</span></div>
+        <button class="mx" onclick="cerrar('ov-ses')">×</button>
+      </div>
+      <div class="mbody">
+        <input type="hidden" id="ses-id" value="">
+        <div class="fs">
+          <div style="background:#e8f5e9;border:1px solid #c8e6c9;border-radius:6px;padding:12px;margin-bottom:12px;">
+            <div style="font-size:11px;font-weight:700;color:#2e7d32;margin-bottom:8px;">📚 Precargar desde Unidad</div>
+            <select id="sel-ud-preload" onchange="if(this.value)preloadSESfromUD(parseInt(this.value));"
+              style="width:100%;padding:6px;font-size:11px;border:1px solid #c8e6c9;border-radius:4px;">
+              <option value="">— Selecciona una Unidad para precargar datos —</option>
+            </select>
+            <div style="font-size:9px;color:#2e7d32;margin-top:6px;">💡 Se cargarán: Área, Grado, IE, Docente y Bimestre
+            </div>
+          </div>
+        </div>
+        <div class="fs">
+          <div class="fst">📋 Identificación de la Sesión</div>
+          <div class="g3">
+            <div class="fc"><label>Institución Educativa</label><input type="text" id="ses-ie"
+                value="I.E. San Martín de Porres"></div>
+            <div class="fc"><label>Docente</label><input type="text" id="ses-doc" value="Mg. María Pérez"></div>
+            <div class="fc"><label>Fecha</label><input type="date" id="ses-fecha"></div>
+            <div class="fc"><label>Área Curricular</label><select id="ses-area" onchange="onArea('ses')"></select></div>
+            <div class="fc"><label>Grado</label><select id="ses-grado">
+                <option>1°</option>
+                <option>2°</option>
+                <option selected>3°</option>
+                <option>4°</option>
+                <option>5°</option>
+              </select></div>
+            <div class="fc"><label>Sección</label><input type="text" id="ses-secc" value="A"></div>
+            <div class="fc"><label>Bimestre</label><select id="ses-bim">
+                <option>I</option>
+                <option>II</option>
+                <option>III</option>
+                <option>IV</option>
+              </select></div>
+            <div class="fc"><label>N° Sesión</label><input type="number" id="ses-num" value="1" min="1"></div>
+            <div class="fc"><label>Duración</label><select id="ses-dur">
+                <option>45 min (1 hora)</option>
+                <option selected>90 min (2 horas)</option>
+                <option>135 min (3 horas)</option>
+                <option>180 min (4 horas)</option>
+              </select></div>
+            <div class="fc"><label>Tipo de sesión</label><select id="ses-tipo">
+                <option>Desarrollo</option>
+                <option>Inicio de unidad</option>
+                <option>Cierre de unidad</option>
+                <option>Evaluación</option>
+                <option>Retroalimentación</option>
+              </select></div>
+            <div class="fc"><label>Modalidad</label><select id="ses-modal">
+                <option>Presencial</option>
+                <option>Virtual</option>
+                <option>Semipresencial</option>
+              </select></div>
+            <div class="fc"><label>Agrupamiento</label><select id="ses-agrup">
+                <option>Individual y grupal</option>
+                <option>Grupos de 4</option>
+                <option>Parejas</option>
+                <option>Individual</option>
+              </select></div>
+            <div class="fc"><label>Espacio</label><select id="ses-esp">
+                <option>Aula</option>
+                <option>Laboratorio</option>
+                <option>Patio/campo</option>
+                <option>Virtual (Meet/Zoom)</option>
+              </select></div>
+            <div class="fc"><label>Estado</label><select id="ses-status">
+                <option value="borrador">Borrador</option>
+                <option value="progreso">En progreso</option>
+                <option value="completo">Completo</option>
+              </select></div>
+          </div>
+          <div class="fc fspan" style="margin-top:9px;">
+            <label>Título de la Sesión <span style="color:var(--gold);font-size:9px;">✨ IA</span></label>
+            <div class="fi"><input type="text" id="ses-tit"
+                placeholder="Título que describe la actividad central..."><button class="fib"
+                onclick="aiCampo('ses-tit','tit-ses')">✨</button></div>
+          </div>
+        </div>
+        <div class="fs">
+          <div class="fst">⭐ Propósito de la Sesión</div>
+          <div class="fc fspan" style="margin-top:6px;">
+            <label>Propósito general de la sesión</label>
+            <textarea id="ses-prop" placeholder="Escribe el propósito de aprendizaje de la sesión"
+              style="min-height:50px"></textarea>
+          </div>
+          <div class="fc fspan" style="margin-top:6px;">
+            <label>Campo temático</label>
+            <input type="text" id="ses-campo" placeholder="Se autocompleta según la competencia" />
+          </div>
+          <div class="g3">
+            <div class="fc" style="grid-column:1/-1;">
+              <label>Competencia a desarrollar</label>
+              <select id="ses-comp" onchange="
+            const area=document.getElementById('ses-area').value;
+            const aObj=AREAS.find(a=>a.n===area);
+            const cD=aObj?CNEB[aObj.id]:null;
+            const comp=this.value;
+            if(cD){
+              const cObj=cD.c.find(c=>c.n===comp);
+              if(cObj){
+                const capsEl=document.getElementById('ses-caps');
+                const desEl=document.getElementById('ses-desemp');
+                if(capsEl&&!capsEl.value)capsEl.value=cObj.caps.join('\n');
+                if(desEl&&!desEl.value&&cObj.d&&cObj.d.length)desEl.value=cObj.d[0];
+              }
+            }
+          "></select>
+            </div>
+            <div class="fc fspan">
+              <label>Capacidades a desarrollar <small style="color:var(--ink3);font-size:10px;">(se autocompletan al
+                  seleccionar la competencia)</small></label>
+              <textarea id="ses-caps" placeholder="Se completan automáticamente al seleccionar la competencia..."
+                style="min-height:60px;"></textarea>
+            </div>
+            <div class="fc fi"><label>Desempeño esperado <span
+                  style="color:var(--gold);font-size:9px;">✨</span></label><input type="text" id="ses-desemp"
+                placeholder="Desempeño específico de la sesión..."><button class="fib"
+                onclick="aiCampo('ses-desemp','desempeno')">✨</button></div>
+            <div class="fc"><label>Instrumento de evaluación</label><select id="ses-instr">
+                <option>Rúbrica</option>
+                <option>Lista de cotejo</option>
+                <option>Escala AD/A/B/C</option>
+                <option>Autoevaluación</option>
+                <option>Coevaluación</option>
+                <option>Registro anecdótico</option>
+              </select></div>
+          </div>
+          <div class="fc fspan" style="margin-top:9px;">
+            <label>Criterios / Evidencia de aprendizaje</label>
+            <textarea id="ses-crit"
+              placeholder="¿Cómo sabemos que el estudiante logró el desempeño? ¿Qué evidencia se recogerá?"
+              style="min-height:55px;"></textarea>
+          </div>
+        </div>
+        <div class="fs">
+          <div class="asz">
+            <div class="asz-h">
+              <div class="asz-ttl">🤖 Sugerencia IA · Los 6 Procesos Pedagógicos completos</div>
+              <button class="btn-ai-gem btn-sm" id="btn-ses-ai" onclick="suSES()">✨ Obtener Sugerencia</button>
+            </div>
+            <div class="ld" id="ses-ld">
+              <div class="ldf"></div>
+            </div>
+            <div id="ses-msg" class="asz-msg">Ingresa área, grado y título; presiona <strong>Obtener Sugerencia</strong>
+              para completar los 6 procesos pedagógicos.</div>
+          </div>
+        </div>
+        <div class="fs">
+          <div class="fst">🔄 Secuencia Didáctica · 6 Procesos Pedagógicos</div>
+          <div class="pg">
+            <div class="pb">
+              <div class="ph" style="background:#C0392B;"><span>1</span> Motivación / Propósito <span
+                  style="font-size:9px;opacity:.8;">INICIO</span></div>
+              <div class="pb-b">
+                <div class="fi"><textarea id="ses-mot"
+                    placeholder="¿Qué hace el docente? ¿Qué hacen los estudiantes?"></textarea><button
+                    class="fib fib-ta" onclick="aiCampo('ses-mot','proc1')">✨</button></div>
+              </div>
+            </div>
+            <div class="pb">
+              <div class="ph" style="background:#1A5276;"><span>2</span> Saberes previos <span
+                  style="font-size:9px;opacity:.8;">INICIO</span></div>
+              <div class="pb-b">
+                <div class="fi"><textarea id="ses-sab"
+                    placeholder="Preguntas específicas para explorar..."></textarea><button class="fib fib-ta"
+                    onclick="aiCampo('ses-sab','proc2')">✨</button></div>
+              </div>
+            </div>
+            <div class="pb">
+              <div class="ph" style="background:#B7770D;"><span>3</span> Conflicto cognitivo <span
+                  style="font-size:9px;opacity:.8;">INICIO</span></div>
+              <div class="pb-b">
+                <div class="fi"><textarea id="ses-conf"
+                    placeholder="Pregunta o situación desafiante..."></textarea><button class="fib fib-ta"
+                    onclick="aiCampo('ses-conf','proc3')">✨</button></div>
+              </div>
+            </div>
+            <div class="pb">
+              <div class="ph" style="background:#1A7A4A;"><span>4</span> Construcción del aprendizaje <span
+                  style="font-size:9px;opacity:.8;">PROCESO</span></div>
+              <div class="pb-b">
+                <div class="fi"><textarea id="ses-cons"
+                    placeholder="Actividades detalladas, rol docente y estudiante..."></textarea><button
+                    class="fib fib-ta" onclick="aiCampo('ses-cons','proc4')">✨</button></div>
+              </div>
+            </div>
+            <div class="pb">
+              <div class="ph" style="background:#5B2D8E;"><span>5</span> Aplicación / Transferencia <span
+                  style="font-size:9px;opacity:.8;">PROCESO</span></div>
+              <div class="pb-b">
+                <div class="fi"><textarea id="ses-apli"
+                    placeholder="Aplican lo aprendido en situaciones reales..."></textarea><button class="fib fib-ta"
+                    onclick="aiCampo('ses-apli','proc5')">✨</button></div>
+              </div>
+            </div>
+            <div class="pb">
+              <div class="ph" style="background:#2D2D45;"><span>6</span> Evaluación / Metacognición <span
+                  style="font-size:9px;opacity:.8;">CIERRE</span></div>
+              <div class="pb-b">
+                <div class="fi"><textarea id="ses-meta"
+                    placeholder="Instrumento + preguntas metacognitivas..."></textarea><button class="fib fib-ta"
+                    onclick="aiCampo('ses-meta','proc6')">✨</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fs">
+          <div class="fst">🎒 Recursos y Configuración Adicional</div>
+          <div class="g3">
+            <div class="fc"><label>Enfoques Transversales</label><input type="text" id="ses-enf"
+                value="Ambiental, Inclusión"></div>
+            <div class="fc"><label>Bibliografía / Fuentes</label><input type="text" id="ses-bib"
+                value="Texto MINEDU, CNEB"></div>
+            <div class="fc"><label>Tarea / Actividad extra</label><input type="text" id="ses-tarea"
+                placeholder="Tarea para casa (opcional)"></div>
+            <div class="fc fspan"><label>Materiales y Recursos</label><input type="text" id="ses-mat"
+                value="Fichas, pizarra, plumones, textos MINEDU"></div>
+          </div>
+        </div>
+      </div>
+      <div class="mfoot">
+        <button class="btn btn-ghost" onclick="cerrar('ov-ses')">Cancelar</button>
+        <button class="btn btn-green" onclick="expSES('pdf')">📑 PDF</button>
+        <button class="btn btn-blue" onclick="expSES('word')">📄 Word</button>
+        <button class="btn btn-purple" onclick="impSES()">🖨 Imprimir</button>
+        <button class="btn btn-red" onclick="guarSES()">💾 Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/script.js"></script>
+</body>
+
+</html>
